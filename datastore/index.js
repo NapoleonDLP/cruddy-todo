@@ -22,24 +22,8 @@ exports.create = (text, callback) => {
   });
 };
 
-//read dataDir, build list of files
-//NOTE: id of each todo item is encoded in its filename
-//include texxt field in response to client
-  //pass in message id for both id field and text content
-
-/*
-i: callback
-o:
-
-NOTE:
-- readdir returns array of
-- path: exports.dataDir
-*/
-
 exports.readAll = (callback) => {
-  //initialize empty data array
   var data = [];
-
 
   fs.readdir(exports.dataDir, (err, files) => {
     if (err) {
@@ -52,29 +36,38 @@ exports.readAll = (callback) => {
       callback(null, data);
     }
   });
-  //read directory -- readdir(path, callback(err, files)) {
-    //err first
-      //throw error?
-      //callback(err)?
-    //no error
-      //iterate over files (forEach?)
-        //files.forEach(fileName => {data.push(yadayada)})
-        //push each file as an object into array
-        //callback(null, data)
-
-  // var data = _.map(items, (text, id) => {
-  //   return { id, text };
-  // });
-  // callback(null, data);
 };
 
 exports.readOne = (id, callback) => {
-  var text = items[id];
-  if (!text) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback(null, { id, text });
-  }
+  /*
+  GOAL:
+  pass file into success callback
+  */
+
+  //path = path.join(exports.dataDir, `${id}.txt`)
+  var currentPath = path.join(exports.dataDir, `${id}.txt`);
+  //fs.readfile(path, (err, file) => {})
+  fs.readFile(currentPath, 'utf8', (err, file) => {
+    if (err) {
+      //throw? callback?
+      callback(err);
+    } else {
+      callback(null, {id: id, text: file});
+    }
+  });
+    //if err
+      //handle it
+    //no error
+      //callback(null, file)
+
+
+
+  // var text = items[id];
+  // if (!text) {
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   callback(null, { id, text });
+  // }
 };
 
 exports.update = (id, text, callback) => {
