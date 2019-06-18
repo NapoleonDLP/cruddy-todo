@@ -18,7 +18,7 @@ const zeroPaddedNumber = (num) => {
 const readCounter = (callback) => {
   fs.readFile(exports.counterFile, (err, fileData) => {
     if (err) {
-      callback(null, 0);
+      callback(null, 0); //should we pass in err instead of null?
     } else {
       callback(null, Number(fileData));
     }
