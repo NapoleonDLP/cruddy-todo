@@ -52,10 +52,6 @@ exports.readOne = (id, callback) => {
 };
 
 exports.update = (id, text, callback) => {
-  //fs.write() vs fs.writeFile();
-  // console.log('TEXT: ', text, typeof text);
-  console.log('HERES THE ID ------>', id);
-
   var currentPath = path.join(exports.dataDir, `${id}.txt`);
 
   fs.open(currentPath, 'r', (err, fd) => {
@@ -73,26 +69,28 @@ exports.update = (id, text, callback) => {
       });
     }
   });
-
-
-  // var item = items[id];
-  // if (!item) {
-  //   callback(new Error(`No item with id: ${id}`));
-  // } else {
-  //   items[id] = text;
-  //   callback(null, { id, text });
-  // }
 };
 
 exports.delete = (id, callback) => {
-  var item = items[id];
-  delete items[id];
-  if (!item) {
-    // report an error if item not found
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback();
-  }
+  var currentPath = path.join(exports.dataDir, `${id}.txt`);
+
+  fs.unlink(currentPath, (err) => {
+    callback(err);
+    console.log('file has been deleted');
+  });
+  //
+
+
+
+
+  // var item = items[id];
+  // delete items[id];
+  // if (!item) {
+  //   // report an error if item not found
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   callback();
+  // }
 };
 
 // Config+Initialization code -- DO NOT MODIFY /////////////////////////////////
