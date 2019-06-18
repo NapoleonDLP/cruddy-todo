@@ -39,14 +39,8 @@ exports.readAll = (callback) => {
 };
 
 exports.readOne = (id, callback) => {
-  /*
-  GOAL:
-  pass file into success callback
-  */
-
-  //path = path.join(exports.dataDir, `${id}.txt`)
   var currentPath = path.join(exports.dataDir, `${id}.txt`);
-  //fs.readfile(path, (err, file) => {})
+
   fs.readFile(currentPath, 'utf8', (err, file) => {
     if (err) {
       //throw? callback?
@@ -55,29 +49,39 @@ exports.readOne = (id, callback) => {
       callback(null, {id: id, text: file});
     }
   });
-    //if err
-      //handle it
-    //no error
-      //callback(null, file)
-
-
-
-  // var text = items[id];
-  // if (!text) {
-  //   callback(new Error(`No item with id: ${id}`));
-  // } else {
-  //   callback(null, { id, text });
-  // }
 };
 
 exports.update = (id, text, callback) => {
-  var item = items[id];
-  if (!item) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    items[id] = text;
-    callback(null, { id, text });
-  }
+  //fs.write() vs fs.writeFile();
+  // console.log('TEXT: ', text, typeof text);
+  console.log('HERES THE ID ------>', id);
+
+  var currentPath = path.join(exports.dataDir, `${id}.txt`);
+
+  fs.open(currentPath, 'r', (err, fd) => {
+    if (err) {
+      console.log('Error -- file not found');
+      callback(err);
+    } else {
+      //write file (path, text, (err) => {})
+      fs.writeFile(currentPath, text, (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, { id: id, text: text });
+        }
+      });
+    }
+  });
+
+
+  // var item = items[id];
+  // if (!item) {
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   items[id] = text;
+  //   callback(null, { id, text });
+  // }
 };
 
 exports.delete = (id, callback) => {
