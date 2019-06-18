@@ -39,10 +39,7 @@ const writeCounter = (count, callback) => {
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = (callback) => {
-
-  //invoke readCounter
   readCounter((err, count) => {
-    //error first
     if (err) {
       console.log('Err calling readCounter inside getNextUniqueId');
       callback(null, 0);
@@ -52,26 +49,13 @@ exports.getNextUniqueId = (callback) => {
           console.log('Err calling writeCounter > readCounter > getNextUniqueId');
           //do we need callback here?
         } else {
-          console.log('callback ---->', callback);
-          console.log('counterString ----->', counterString);
           callback(null, counterString);
         }
       });
     }
   });
-
-  // return zeroPaddedNumber(counter); //string
 };
 
-// counter = counter + 1;
-
-
-/*
-I: cb
-O: err: throw err && nonErr: get next unique id
-C: count has to be string
-E:
-*/
 
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
