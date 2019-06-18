@@ -52,10 +52,9 @@ exports.getNextUniqueId = (callback) => {
           console.log('Err calling writeCounter > readCounter > getNextUniqueId');
           //do we need callback here?
         } else {
-          // callback(null, counterString);
           console.log('callback ---->', callback);
           console.log('counterString ----->', counterString);
-          callback(err, counterString);
+          callback(null, counterString);
         }
       });
     }
